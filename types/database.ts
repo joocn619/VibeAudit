@@ -1,0 +1,204 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export interface Database {
+  public: {
+    Tables: {
+      profiles: {
+        Row: {
+          id: string
+          email: string | null
+          plan: 'free' | 'pro' | 'agency'
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          onboarding_completed: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          email?: string | null
+          plan?: 'free' | 'pro' | 'agency'
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          onboarding_completed?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string | null
+          plan?: 'free' | 'pro' | 'agency'
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          onboarding_completed?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      repos: {
+        Row: {
+          id: string
+          user_id: string
+          github_repo_id: number
+          full_name: string
+          default_branch: string
+          installation_id: number
+          connected_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          github_repo_id: number
+          full_name: string
+          default_branch?: string
+          installation_id: number
+          connected_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          github_repo_id?: number
+          full_name?: string
+          default_branch?: string
+          installation_id?: number
+          connected_at?: string
+        }
+      }
+      scans: {
+        Row: {
+          id: string
+          repo_id: string
+          user_id: string
+          status: 'queued' | 'running' | 'done' | 'failed'
+          score: number | null
+          commit_sha: string | null
+          started_at: string
+          finished_at: string | null
+        }
+        Insert: {
+          id?: string
+          repo_id: string
+          user_id: string
+          status?: 'queued' | 'running' | 'done' | 'failed'
+          score?: number | null
+          commit_sha?: string | null
+          started_at?: string
+          finished_at?: string | null
+        }
+        Update: {
+          id?: string
+          repo_id?: string
+          user_id?: string
+          status?: 'queued' | 'running' | 'done' | 'failed'
+          score?: number | null
+          commit_sha?: string | null
+          started_at?: string
+          finished_at?: string | null
+        }
+      }
+      findings: {
+        Row: {
+          id: string
+          scan_id: string
+          check_type: string
+          severity: 'critical' | 'high' | 'medium' | 'low'
+          file_path: string
+          line: number
+          title: string
+          plain_english: string | null
+          fix_suggestion: string | null
+          cwe: string | null
+        }
+        Insert: {
+          id?: string
+          scan_id: string
+          check_type: string
+          severity: 'critical' | 'high' | 'medium' | 'low'
+          file_path: string
+          line: number
+          title: string
+          plain_english?: string | null
+          fix_suggestion?: string | null
+          cwe?: string | null
+        }
+        Update: {
+          id?: string
+          scan_id?: string
+          check_type?: string
+          severity?: 'critical' | 'high' | 'medium' | 'low'
+          file_path?: string
+          line?: number
+          title?: string
+          plain_english?: string | null
+          fix_suggestion?: string | null
+          cwe?: string | null
+        }
+      }
+      fix_prs: {
+        Row: {
+          id: string
+          finding_id: string
+          scan_id: string
+          pr_url: string
+          status: 'open' | 'merged' | 'closed'
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          finding_id: string
+          scan_id: string
+          pr_url: string
+          status?: 'open' | 'merged' | 'closed'
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          finding_id?: string
+          scan_id?: string
+          pr_url?: string
+          status?: 'open' | 'merged' | 'closed'
+          created_at?: string
+        }
+      }
+      monitoring_config: {
+        Row: {
+          repo_id: string
+          enabled: boolean
+          alert_email: string | null
+          alert_discord_webhook: string | null
+        }
+        Insert: {
+          repo_id: string
+          enabled?: boolean
+          alert_email?: string | null
+          alert_discord_webhook?: string | null
+        }
+        Update: {
+          repo_id?: string
+          enabled?: boolean
+          alert_email?: string | null
+          alert_discord_webhook?: string | null
+        }
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
+}
+
