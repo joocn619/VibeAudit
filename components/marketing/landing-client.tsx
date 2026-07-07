@@ -245,14 +245,15 @@ export function LandingClient() {
             </div>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-semibold text-slate-300">
+          <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-300">
+            <a href="#how-it-works" className="hover:text-white transition">How It Works</a>
+            <a href="#who-its-for" className="hover:text-white transition">Who It&apos;s For</a>
             <a href="#demo-sandbox" className="hover:text-white transition flex items-center gap-1">
               <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
-              <span>Interactive Preview</span>
+              <span>Preview</span>
             </a>
-            <a href="#roi" className="hover:text-white transition">ROI &amp; Savings</a>
-            <a href="#vulnerabilities" className="hover:text-white transition">Business Impact</a>
-            <a href="#architecture" className="hover:text-white transition">Security &amp; Privacy</a>
+            <a href="#roi" className="hover:text-white transition">ROI</a>
+            <a href="#comparison" className="hover:text-white transition">Why Us</a>
             <a href="#faq" className="hover:text-white transition">FAQ</a>
           </nav>
 
@@ -405,6 +406,84 @@ export function LandingClient() {
               <span>SOC2 Type II Compliant</span>
             </span>
           </p>
+        </div>
+      </section>
+
+      {/* 2.5. NEW: How VibeAudit Works in 3 Simple Steps (Crystal Clear for Clients) */}
+      <section id="how-it-works" className="py-24 px-6 max-w-7xl mx-auto border-t border-white/10">
+        <div className="text-center space-y-4 mb-16">
+          <span className="text-xs font-bold font-mono uppercase tracking-wider text-indigo-400 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30">
+            3-Step Automated Workflow
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            How VibeAudit Secures Your App <span className="text-gradient">in 60 Seconds</span>
+          </h2>
+          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-medium">
+            No complex configuration or security expertise required. Here is exactly how VibeAudit turns your AI-built repository into an enterprise-ready fortress.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          {/* Connecting Line for desktop */}
+          <div className="hidden md:block absolute top-1/2 left-1/6 right-1/6 h-0.5 bg-gradient-to-r from-indigo-500/40 via-purple-500/40 to-emerald-500/40 -translate-y-8 z-0 pointer-events-none" />
+
+          {[
+            {
+              step: "01",
+              title: "1-Click GitHub Connect",
+              desc: "Install our GitHub App in seconds. VibeAudit connects to your repository with read-only permissions without ever storing your proprietary source code on disk.",
+              icon: Github,
+              badge: "No Code Required",
+              color: "from-indigo-500/20 to-purple-500/10 border-indigo-500/40 text-indigo-400",
+            },
+            {
+              step: "02",
+              title: "Deep AST & AI Audit",
+              desc: "Our engine scans your codebase in volatile RAM, detecting hidden architectural flaws—like Stripe price trust, SQL injection, and LLM token leaks that regex scanners miss.",
+              icon: Zap,
+              badge: "60-Second Scan",
+              color: "from-purple-500/20 to-pink-500/10 border-purple-500/40 text-purple-400",
+            },
+            {
+              step: "03",
+              title: "Autonomous Fix PRs",
+              desc: "Instead of just leaving a confusing PDF report, VibeAudit autonomously generates secure TypeScript/SQL patches and opens ready-to-merge GitHub Pull Requests!",
+              icon: GitPullRequest,
+              badge: "One-Click Merge",
+              color: "from-emerald-500/20 to-teal-500/10 border-emerald-500/40 text-emerald-400",
+            },
+          ].map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className={`glass-card rounded-3xl p-8 border bg-gradient-to-br ${item.color} space-y-6 relative z-10 shadow-xl flex flex-col justify-between`}
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-3xl font-black font-mono text-white/30">{item.step}</span>
+                    <span className="text-[11px] font-extrabold font-mono uppercase tracking-wider px-3 py-1 rounded-full bg-white/10 text-white border border-white/15">
+                      {item.badge}
+                    </span>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-black/50 w-fit border border-white/10 shadow-inner">
+                    <Icon className="h-8 w-8 fill-current" />
+                  </div>
+                  <h3 className="text-xl font-black text-white">{item.title}</h3>
+                  <p className="text-sm text-slate-300 font-medium leading-relaxed">{item.desc}</p>
+                </div>
+                <div className="pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-bold text-slate-400">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  <span>Verified Safe &bull; Zero Breaking Changes</span>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </section>
 
@@ -608,6 +687,94 @@ export function LandingClient() {
         </div>
       </section>
 
+      {/* 4.5. NEW: Who VibeAudit is Built For (Target Personas & Use Cases) */}
+      <section id="who-its-for" className="py-24 px-6 max-w-7xl mx-auto border-t border-white/10">
+        <div className="text-center space-y-4 mb-16">
+          <span className="text-xs font-bold font-mono uppercase tracking-wider text-purple-400 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30">
+            Tailored For AI Speed
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            Who Needs <span className="text-gradient">VibeAudit?</span>
+          </h2>
+          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-medium">
+            Whether you are shipping solo with Cursor or leading an agency building for enterprise clients, VibeAudit protects your brand reputation.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            {
+              role: "Founders & Solo Devs",
+              tool: "Using Cursor AI & Windsurf",
+              headline: "Launch Fast Without Getting Hacked",
+              desc: "You built your MVP in record time using AI assistants. VibeAudit ensures you don't accidentally ship hardcoded API keys, unvalidated billing webhooks, or open database leaks.",
+              icon: Briefcase,
+              badge: "Protect MVP Launch",
+              benefit: "Save $15,000+ on manual security audits",
+              border: "border-indigo-500/40 hover:border-indigo-500",
+              glow: "from-indigo-600/15 via-transparent to-transparent",
+            },
+            {
+              role: "Agencies & Dev Studios",
+              tool: "Using Lovable.dev & v0 by Vercel",
+              headline: "Win Enterprise Client Contracts",
+              desc: "Enterprise clients demand strict security due diligence before signing $20k+ contracts. Attach VibeAudit's verified 'A+ Security Certificate' to your deliverables and close deals 10x faster.",
+              icon: Award,
+              badge: "SOC2 & Client Audit Ready",
+              benefit: "Close high-ticket enterprise contracts",
+              border: "border-purple-500/40 hover:border-purple-500",
+              glow: "from-purple-600/15 via-transparent to-transparent",
+            },
+            {
+              role: "CTOs & Engineering Leads",
+              tool: "Managing Copilot & Junior Devs",
+              headline: "24/7 Automated Security Reviewer",
+              desc: "Your team is merging hundreds of AI-generated pull requests every week. VibeAudit acts as an autonomous senior security engineer in your CI/CD pipeline, blocking flaws before merge.",
+              icon: ShieldCheck,
+              badge: "Continuous CI/CD Guard",
+              benefit: "Zero vulnerability backlog in production",
+              border: "border-emerald-500/40 hover:border-emerald-500",
+              glow: "from-emerald-600/15 via-transparent to-transparent",
+            },
+          ].map((persona, idx) => {
+            const Icon = persona.icon;
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                whileHover={{ scale: 1.04 }}
+                className={`glass-card rounded-3xl p-8 border ${persona.border} bg-gradient-to-b ${persona.glow} space-y-6 shadow-2xl flex flex-col justify-between`}
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-extrabold text-indigo-300 uppercase tracking-wider">{persona.tool}</span>
+                    <span className="text-[10px] font-extrabold font-mono px-2.5 py-1 rounded-lg bg-white/10 text-white border border-white/15">
+                      {persona.badge}
+                    </span>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-black/60 w-fit border border-white/10">
+                    <Icon className="h-7 w-7 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black text-white">{persona.role}</h3>
+                    <h4 className="text-sm font-bold text-gradient mt-1">{persona.headline}</h4>
+                  </div>
+                  <p className="text-sm text-slate-300 font-medium leading-relaxed">{persona.desc}</p>
+                </div>
+
+                <div className="pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-bold text-emerald-400 font-mono">
+                  <CheckCircle2 className="h-4 w-4 shrink-0" />
+                  <span>{persona.benefit}</span>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
       {/* 5. Interactive ROI & Security Calculator */}
       <section id="roi" className="py-24 px-6 max-w-7xl mx-auto">
         <div className="text-center space-y-4 mb-16">
@@ -717,6 +884,99 @@ export function LandingClient() {
             </Link>
           </div>
         </motion.div>
+      </section>
+
+      {/* 5.5. NEW: Before vs. After VibeAudit (Visual Breakdown for Founders) */}
+      <section id="comparison" className="py-24 px-6 max-w-6xl mx-auto border-t border-white/10">
+        <div className="text-center space-y-4 mb-16">
+          <span className="text-xs font-bold font-mono uppercase tracking-wider text-emerald-400 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+            Why We Are Different
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            The Old Way vs. <span className="text-gradient">The VibeAudit Way</span>
+          </h2>
+          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-medium">
+            See why modern SaaS founders are abandoning slow, expensive manual pentesting in favor of autonomous AI security.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Before VibeAudit (The Old Way) */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="glass-card rounded-3xl p-8 md:p-10 border border-rose-500/30 bg-gradient-to-br from-rose-500/10 via-black/80 to-black/90 space-y-6 shadow-xl relative overflow-hidden"
+          >
+            <div className="flex items-center justify-between pb-4 border-b border-rose-500/20">
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-2xl bg-rose-500/20 text-rose-400 border border-rose-500/30 font-black">
+                  ❌
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-white">The Old Way</h3>
+                  <span className="text-xs text-rose-400 font-semibold font-mono">Manual Audits &amp; Blind Launches</span>
+                </div>
+              </div>
+              <span className="px-3 py-1 rounded-full bg-rose-500/10 text-rose-300 font-mono text-xs font-bold border border-rose-500/30">
+                High Risk &amp; Cost
+              </span>
+            </div>
+
+            <ul className="space-y-4 text-sm text-slate-300 font-medium">
+              {[
+                { title: "Blind to AI Architectural Flaws", desc: "Legacy regex tools miss frontend price spoofing and LLM token drains." },
+                { title: "Expensive Consultant Fees ($15k–$50k)", desc: "Hiring manual security firms burns precious startup runway and takes 3–6 weeks." },
+                { title: "Confusing 100-Page PDF Reports", desc: "You get a massive list of theoretical warnings with zero actionable code fixes." },
+                { title: "Failed Enterprise & Investor Audits", desc: "Losing high-ticket B2B deals because you lack verified SOC2 / security certification." },
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                  <AlertTriangle className="h-5 w-5 text-rose-400 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-white block font-bold">{item.title}</strong>
+                    <span className="text-xs text-slate-400">{item.desc}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* After VibeAudit (The VibeAudit Way) */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="glass-card rounded-3xl p-8 md:p-10 border-2 border-emerald-500/50 bg-gradient-to-br from-emerald-500/15 via-indigo-500/10 to-black/90 space-y-6 shadow-glow relative overflow-hidden"
+          >
+            <div className="flex items-center justify-between pb-4 border-b border-emerald-500/20">
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-black">
+                  ⚡
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-white">The VibeAudit Way</h3>
+                  <span className="text-xs text-emerald-400 font-semibold font-mono">Autonomous 60-Second AI Security</span>
+                </div>
+              </div>
+              <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold border border-emerald-500/40 shadow-glow">
+                10x Faster &amp; Safer
+              </span>
+            </div>
+
+            <ul className="space-y-4 text-sm text-slate-200 font-medium">
+              {[
+                { title: "Deep AST & Semantic Context Engine", desc: "Understands full-stack AI business logic, intercepting database and Stripe payment flaws." },
+                { title: "A Fraction of the Cost ($29/mo)", desc: "Continuous 24/7 autonomous security monitoring for less than the cost of a team lunch." },
+                { title: "Autonomous Drop-In Pull Requests", desc: "Our AI writes tested, verified TypeScript & SQL patches and opens PRs for you automatically." },
+                { title: "Instant A+ Enterprise Certificate", desc: "Download verifiable compliance certificates to close enterprise B2B sales and impress investors!" },
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.05] border border-emerald-500/20">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-white block font-bold">{item.title}</strong>
+                    <span className="text-xs text-emerald-200/80">{item.desc}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
       </section>
 
       {/* 6. Interactive Vulnerability Showcase with CLIENT-FRIENDLY Business Impact Banner */}
@@ -1182,12 +1442,12 @@ export function LandingClient() {
 
           <div className="flex flex-wrap items-center justify-center gap-6 text-slate-300">
             <Link href="/dashboard" className="hover:text-white transition">Dashboard</Link>
-            <Link href="/monitoring" className="hover:text-white transition">Monitoring</Link>
-            <Link href="/settings/billing" className="hover:text-white transition">Pricing</Link>
-            <a href="#demo-sandbox" className="hover:text-white transition">Interactive Preview</a>
+            <a href="#how-it-works" className="hover:text-white transition">How It Works</a>
+            <a href="#who-its-for" className="hover:text-white transition">Who It&apos;s For</a>
+            <a href="#demo-sandbox" className="hover:text-white transition">Preview</a>
             <a href="#roi" className="hover:text-white transition">ROI Calculator</a>
+            <a href="#comparison" className="hover:text-white transition">Why Us</a>
             <a href="#faq" className="hover:text-white transition">Security FAQ</a>
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-white transition">GitHub App</a>
           </div>
         </div>
       </footer>
