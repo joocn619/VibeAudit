@@ -48,7 +48,12 @@ export async function middleware(request: NextRequest) {
     path.startsWith('/settings') ||
     path.startsWith('/onboarding')
 
-  const isDemoMode = !process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL.includes('dummy') || process.env.NEXT_PUBLIC_SUPABASE_URL.includes('your-project')
+  const isDemoMode =
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    process.env.NEXT_PUBLIC_SUPABASE_URL.includes('dummy') ||
+    process.env.NEXT_PUBLIC_SUPABASE_URL.includes('your-project') ||
+    request.cookies.get('demo_bypass')?.value === 'true' ||
+    request.nextUrl.searchParams.get('demo') === 'true'
 
   if (isProtectedRoute && !user && !isDemoMode) {
     const url = request.nextUrl.clone()

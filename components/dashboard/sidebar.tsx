@@ -128,7 +128,7 @@ export function DashboardSidebar({
   ];
 
   return (
-    <aside className="w-64 border-r border-white/10 bg-[#0a0a0f]/80 backdrop-blur-2xl flex flex-col justify-between p-5 relative z-20 shrink-0">
+    <aside className="hidden md:flex w-64 border-r border-white/10 bg-[#0a0a0f]/80 backdrop-blur-2xl flex-col justify-between p-5 relative z-20 shrink-0">
       {/* Top Section: Brand & Nav */}
       <div className="space-y-8">
         {/* Brand Logo */}

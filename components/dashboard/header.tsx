@@ -12,8 +12,17 @@ import {
   ShieldAlert,
   ArrowUpRight,
   ExternalLink,
+  Menu,
+  X,
+  LayoutDashboard,
+  Activity,
+  Bot,
+  ShieldCheck,
+  CreditCard,
+  Settings,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface HeaderProps {
   repoCount?: number;
@@ -21,7 +30,19 @@ interface HeaderProps {
 
 export function DashboardHeader({ repoCount = 0 }: HeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const pathname = usePathname();
+
+  const mobileNavItems = [
+    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Monitoring & Alerts", href: "/monitoring", icon: Activity },
+    { name: "AI Fix Engine", href: "/fixes", icon: Sparkles },
+    { name: "AI Copilot", href: "/copilot", icon: Bot },
+    { name: "Compliance & SOC2", href: "/compliance", icon: ShieldCheck },
+    { name: "Billing & Plans", href: "/settings/billing", icon: CreditCard },
+    { name: "Settings", href: "/settings/profile", icon: Settings },
+  ];
 
   const notifications = [
     {
@@ -48,17 +69,24 @@ export function DashboardHeader({ repoCount = 0 }: HeaderProps) {
   ];
 
   return (
-    <header className="h-16 border-b border-white/10 bg-[#0a0a0f]/60 backdrop-blur-xl flex items-center justify-between px-8 relative z-10 shrink-0">
-      {/* Left: Live Security Ticker */}
-      <div className="flex items-center gap-4">
+    <header className="h-16 border-b border-white/10 bg-[#0a0a0f]/60 backdrop-blur-xl flex items-center justify-between px-4 md:px-8 relative z-30 shrink-0">
+      {/* Left: Mobile Menu Button & Live Ticker */}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => setShowMobileMenu(!showMobileMenu)}
+          className="md:hidden p-2 rounded-xl bg-white/[0.03] border border-white/10 text-slate-300 hover:text-white"
+        >
+          {showMobileMenu ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
         <div className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-xs font-medium text-slate-300">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span>
+          <span className="hidden sm:inline">
             AI Security Shield: <strong className="text-white font-semibold">Active Monitoring</strong>
           </span>
+          <span className="sm:hidden font-semibold text-white">Active Shield</span>
           <span className="text-slate-600">|</span>
           <span className="text-slate-400 font-mono text-[11px]">{repoCount} Repos Protected</span>
         </div>
@@ -150,6 +178,33 @@ export function DashboardHeader({ repoCount = 0 }: HeaderProps) {
           )}
         </div>
       </div>
+
+      {/* Mobile Navigation Dropdown */}
+      {showMobileMenu && (
+        <div className="absolute top-16 left-0 right-0 bg-[#0a0a0f]/95 border-b border-white/10 backdrop-blur-2xl p-4 shadow-2xl md:hidden z-50 animate-in slide-in-from-top-2 duration-200">
+          <div className="grid grid-cols-2 gap-2">
+            {mobileNavItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setShowMobileMenu(false)}
+                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                    isActive
+                      ? "bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-white border border-indigo-500/40 shadow-glow"
+                      : "text-slate-300 hover:bg-white/5"
+                  }`}
+                >
+                  <Icon className="h-4 w-4 text-indigo-400" />
+                  <span className="truncate">{item.name}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </header>
   );
 }
