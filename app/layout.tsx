@@ -9,15 +9,28 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://vibeaudit.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(appUrl),
   title: "VibeAudit — Security Scanner for AI-Built Apps",
-  description: "Built your app with AI? Scan it before it gets hacked. Connect GitHub repo → get Security Score + plain-English report → click Fix it for me to auto-open a GitHub PR.",
+  description:
+    "Built your app with AI? Scan it before it gets hacked. Connect GitHub repo → get Security Score + plain-English report → click Fix it for me to auto-open a GitHub PR.",
   openGraph: {
     title: "VibeAudit — Security Scanner for AI-Built Apps",
-    description: "Connect GitHub repo → get Security Score (0-100) + plain-English report → click Fix it for me to auto-open a GitHub PR.",
+    description:
+      "Connect GitHub repo → get Security Score (0-100) + plain-English report → click Fix it for me to auto-open a GitHub PR.",
     type: "website",
-    url: "https://vibeaudit.vercel.app",
+    url: appUrl,
+    siteName: "VibeAudit",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "VibeAudit — Security Scanner for AI-Built Apps",
+    description:
+      "Connect GitHub repo → get Security Score (0-100) + plain-English report → click Fix it for me to auto-open a GitHub PR.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({

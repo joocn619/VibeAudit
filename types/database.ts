@@ -40,6 +40,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       repos: {
         Row: {
@@ -69,6 +70,7 @@ export interface Database {
           installation_id?: number
           connected_at?: string
         }
+        Relationships: []
       }
       scans: {
         Row: {
@@ -101,6 +103,7 @@ export interface Database {
           started_at?: string
           finished_at?: string | null
         }
+        Relationships: []
       }
       findings: {
         Row: {
@@ -139,6 +142,7 @@ export interface Database {
           fix_suggestion?: string | null
           cwe?: string | null
         }
+        Relationships: []
       }
       fix_prs: {
         Row: {
@@ -165,6 +169,7 @@ export interface Database {
           status?: 'open' | 'merged' | 'closed'
           created_at?: string
         }
+        Relationships: []
       }
       monitoring_config: {
         Row: {
@@ -185,6 +190,7 @@ export interface Database {
           alert_email?: string | null
           alert_discord_webhook?: string | null
         }
+        Relationships: []
       }
     }
     Views: {
@@ -201,4 +207,3 @@ export interface Database {
     }
   }
 }
-

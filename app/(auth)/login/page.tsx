@@ -122,21 +122,6 @@ function LoginForm() {
           Sign up free
         </Link>
       </p>
-
-      {/* VIP DEMO BYPASS BUTTON FOR QA & INVESTORS */}
-      <div className="mt-6 pt-6 border-t border-white/10 text-center">
-        <button
-          onClick={() => {
-            document.cookie = "demo_bypass=true; path=/; max-age=86400";
-            window.location.href = "/dashboard?demo=true";
-          }}
-          type="button"
-          className="w-full rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 py-3 px-4 text-xs font-bold text-emerald-300 hover:bg-emerald-500/30 transition-all flex items-center justify-center gap-2 shadow-sm"
-        >
-          <span>⚡ VIP Demo Bypass (Instant Dashboard Access)</span>
-        </button>
-        <p className="text-[11px] text-slate-500 mt-2">Bypass auth for investors, QA audits, and local testing</p>
-      </div>
     </div>
   );
 }

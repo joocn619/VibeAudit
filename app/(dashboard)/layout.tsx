@@ -15,20 +15,21 @@ export default async function DashboardLayout({
   let repoCount = 0;
 
   if (user) {
-    const { data: profileData } = await (supabase.from("profiles") as any)
+    const { data: profileData } = await supabase
+      .from("profiles")
       .select("*")
       .eq("id", user.id)
       .single();
     profile = profileData;
 
-    const { count } = await (supabase.from("repos") as any)
+    const { count } = await supabase
+      .from("repos")
       .select("*", { count: "exact", head: true })
       .eq("user_id", user.id);
     repoCount = count || 0;
   }
 
-  // Fallback repo count for demo feel when testing locally
-  const displayRepoCount = repoCount > 0 ? repoCount : 4;
+  const displayRepoCount = repoCount
 
   return (
     <div className="flex min-h-screen bg-[#0a0a0f] text-slate-100 font-sans selection:bg-indigo-500/30 selection:text-indigo-200 overflow-x-hidden relative">
@@ -38,9 +39,9 @@ export default async function DashboardLayout({
 
       {/* Sidebar */}
       <DashboardSidebar
-        userEmail={user?.email || "demo.user@vibeaudit.ai"}
-        plan={profile?.plan || "pro"}
-        onboardingCompleted={profile?.onboarding_completed || true}
+        userEmail={user?.email || ""}
+        plan={profile?.plan ?? "free"}
+        onboardingCompleted={profile?.onboarding_completed ?? false}
       />
 
       {/* Main Content Area */}

@@ -10,7 +10,8 @@ export default async function DashboardPage() {
   let repos: Repo[] = [];
 
   if (user) {
-    const { data } = await (supabase.from("repos") as any)
+    const { data } = await supabase
+      .from("repos")
       .select("*")
       .eq("user_id", user.id)
       .order("connected_at", { ascending: false });

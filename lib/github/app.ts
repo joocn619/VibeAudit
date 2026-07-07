@@ -39,10 +39,15 @@ export async function syncInstallationRepos(userId: string, installationId: numb
   const octokit = await getInstallationOctokit(installationId);
 
   if (!octokit) {
-    // FALLBACK / DEMO MODE: If GitHub App is not configured yet (e.g. 0-MRR flip setup or local dev),
-    // we create a realistic connected repository so the scanner & AI fix loop works out-of-the-box!
+    // Demo fallback is only allowed outside production. In production a missing
+    // GitHub App is a real misconfiguration and must surface, not silently seed
+    // fake repositories into the database.
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("GitHub App is not configured");
+    }
+
     console.log("[GitHubApp] Using demo fallback repository sync for user:", userId);
-    
+
     const demoRepo = {
       user_id: userId,
       github_repo_id: 88990011,
@@ -51,7 +56,8 @@ export async function syncInstallationRepos(userId: string, installationId: numb
       installation_id: installationId || 999999,
     };
 
-    const { data, error } = await (supabase.from("repos") as any)
+    const { data, error } = await supabase
+      .from("repos")
       .upsert(demoRepo, { onConflict: "user_id,github_repo_id" })
       .select()
       .single();
@@ -67,7 +73,7 @@ export async function syncInstallationRepos(userId: string, installationId: numb
   // REAL GITHUB APP SYNC
   try {
     const { data: { repositories } } = await (octokit as any).rest.apps.listReposAccessibleToInstallation();
-    const syncedRepos = [];
+    const syncedRepos: unknown[] = [];
 
     for (const repo of repositories) {
       const repoData = {
@@ -78,7 +84,8 @@ export async function syncInstallationRepos(userId: string, installationId: numb
         installation_id: installationId,
       };
 
-      const { data, error } = await (supabase.from("repos") as any)
+      const { data, error } = await supabase
+        .from("repos")
         .upsert(repoData, { onConflict: "user_id,github_repo_id" })
         .select()
         .single();
