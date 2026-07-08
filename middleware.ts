@@ -19,13 +19,13 @@ export async function middleware(request: NextRequest) {
     path.startsWith('/settings') ||
     path.startsWith('/onboarding')
 
-  // Demo mode is ONLY available in local/dev — either when Supabase is not
-  // configured, or when NEXT_PUBLIC_DEMO_MODE is explicitly set for recording.
-  // It can never be enabled in production (gated on NODE_ENV) and cannot be
-  // toggled by a request (no cookie/query-param triggers), so it is not an
-  // auth-bypass in production the way the old ?demo=true trigger was.
+  // Demo mode is operator-controlled via the NEXT_PUBLIC_DEMO_MODE env var
+  // (or when Supabase is not configured in local dev). It is NOT toggleable by
+  // a request — no cookie/query-param triggers — so a visitor can never flip it
+  // on the way the removed ?demo=true trigger allowed. In demo mode only
+  // hardcoded fixtures are shown; real user data is never exposed. See lib/demo.
   const isNonProd = process.env.NODE_ENV !== 'production'
-  const demoFlag = isNonProd && process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
+  const demoFlag = process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
   const isDemoMode = demoFlag || (!isConfigured && isNonProd)
 
   if (!isConfigured) {
