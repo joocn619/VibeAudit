@@ -54,6 +54,12 @@ export function DashboardSidebar({
       badge: null,
     },
     {
+      name: "Scan a Repo",
+      href: "/scan/new",
+      icon: Terminal,
+      badge: "REAL",
+    },
+    {
       name: "Analytics & Intel",
       href: "/analytics",
       icon: BarChart3,
@@ -180,7 +186,9 @@ export function DashboardSidebar({
                 {item.badge && (
                   <span
                     className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${
-                      item.badge === "Live"
+                      item.badge === "REAL"
+                        ? "bg-gradient-to-r from-emerald-500/30 to-teal-500/30 text-emerald-200 border border-emerald-500/40 shadow-glow"
+                        : item.badge === "Live"
                         ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 animate-pulse"
                         : item.badge === "New"
                         ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"

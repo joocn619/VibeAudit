@@ -170,6 +170,15 @@ create policy "Users can view findings of own scans" on public.findings
     )
   );
 
+create policy "Users can insert findings for own scans" on public.findings
+  for insert with check (
+    exists (
+      select 1 from public.scans
+      where scans.id = findings.scan_id
+        and scans.user_id = auth.uid()
+    )
+  );
+
 -- Fix PRs: Users can view, insert, and update PRs belonging to their own scans
 create policy "Users can view fix_prs of own scans" on public.fix_prs
   for select using (
