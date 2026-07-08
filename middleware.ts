@@ -19,10 +19,14 @@ export async function middleware(request: NextRequest) {
     path.startsWith('/settings') ||
     path.startsWith('/onboarding')
 
-  // Demo mode is ONLY available in local/dev when Supabase is not configured.
-  // It can never be enabled in production and cannot be toggled by a request
-  // (no cookie/query-param triggers), preventing auth-bypass in production.
-  const isDemoMode = !isConfigured && process.env.NODE_ENV !== 'production'
+  // Demo mode is ONLY available in local/dev — either when Supabase is not
+  // configured, or when NEXT_PUBLIC_DEMO_MODE is explicitly set for recording.
+  // It can never be enabled in production (gated on NODE_ENV) and cannot be
+  // toggled by a request (no cookie/query-param triggers), so it is not an
+  // auth-bypass in production the way the old ?demo=true trigger was.
+  const isNonProd = process.env.NODE_ENV !== 'production'
+  const demoFlag = isNonProd && process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
+  const isDemoMode = demoFlag || (!isConfigured && isNonProd)
 
   if (!isConfigured) {
     // Misconfigured production => fail closed on protected routes.
@@ -58,7 +62,7 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (isProtectedRoute && !user) {
+  if (isProtectedRoute && !user && !isDemoMode) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     url.searchParams.set('redirect', path)

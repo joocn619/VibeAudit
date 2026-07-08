@@ -7,12 +7,28 @@ import { useSearchParams } from "next/navigation";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const redirectUrl = searchParams?.get("redirect") || "/dashboard";
   const supabase = createClient();
+
+  const handlePasswordLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      window.location.href = redirectUrl;
+    } catch (err: any) {
+      setError(err.message || "Failed to sign in");
+      setLoading(false);
+    }
+  };
 
   const handleGitHubLogin = async () => {
     setLoading(true);
@@ -32,8 +48,8 @@ function LoginForm() {
     }
   };
 
-  const handleEmailLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleEmailLogin = async (e?: React.SyntheticEvent) => {
+    e?.preventDefault();
     if (!email) return;
     setLoading(true);
     setError(null);
@@ -87,14 +103,14 @@ function LoginForm() {
         </div>
       </div>
 
-      {/* SECONDARY: Email Magic Link */}
+      {/* SECONDARY: Email + password / magic link */}
       {emailSent ? (
         <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-4 text-center text-sm text-emerald-300">
           <p className="font-semibold mb-1">Check your inbox!</p>
           <p className="text-xs text-slate-400">We sent a magic sign-in link to {email}. Click it to sign in instantly.</p>
         </div>
       ) : (
-        <form onSubmit={handleEmailLogin} className="space-y-4">
+        <form onSubmit={handlePasswordLogin} className="space-y-4">
           <div>
             <label className="block text-xs font-semibold uppercase text-slate-400 mb-1.5">Email Address</label>
             <input
@@ -106,12 +122,31 @@ function LoginForm() {
               className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition"
             />
           </div>
+          <div>
+            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1.5">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              autoComplete="current-password"
+              className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition"
+            />
+          </div>
           <button
             type="submit"
+            disabled={loading || !email || !password}
+            className="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 py-3 text-sm font-semibold text-white shadow-glow hover:opacity-95 transition disabled:opacity-50"
+          >
+            {loading ? "Signing in..." : "Sign in"}
+          </button>
+          <button
+            type="button"
+            onClick={handleEmailLogin}
             disabled={loading || !email}
             className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white transition disabled:opacity-50"
           >
-            {loading ? "Sending link..." : "Send Magic Link"}
+            {loading ? "Please wait..." : "Email me a magic link instead"}
           </button>
         </form>
       )}

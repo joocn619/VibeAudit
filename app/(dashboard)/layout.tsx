@@ -2,6 +2,7 @@ import React from "react";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { createClient } from "@/lib/supabase/server";
+import { DEMO_MODE, DEMO_PROFILE, DEMO_REPO_COUNT } from "@/lib/demo";
 
 export default async function DashboardLayout({
   children,
@@ -27,6 +28,10 @@ export default async function DashboardLayout({
       .select("*", { count: "exact", head: true })
       .eq("user_id", user.id);
     repoCount = count || 0;
+  } else if (DEMO_MODE) {
+    // Recording-only fallback so the shell looks populated without a DB user.
+    profile = DEMO_PROFILE;
+    repoCount = DEMO_REPO_COUNT;
   }
 
   const displayRepoCount = repoCount
@@ -39,7 +44,7 @@ export default async function DashboardLayout({
 
       {/* Sidebar */}
       <DashboardSidebar
-        userEmail={user?.email || ""}
+        userEmail={user?.email || profile?.email || ""}
         plan={profile?.plan ?? "free"}
         onboardingCompleted={profile?.onboarding_completed ?? false}
       />
