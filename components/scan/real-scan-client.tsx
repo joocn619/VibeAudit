@@ -57,7 +57,9 @@ export function RealScanClient() {
     setError(null);
     setResult(null);
     try {
-      const res = await fetch("/api/scan/start", {
+      // Uses /svc/scan (outside /api) so it is not intercepted by the
+      // project's /api proxy, and needs no login — public real scan.
+      const res = await fetch("/svc/scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ repo: repo.trim() }),
